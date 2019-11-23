@@ -1,0 +1,234 @@
+SELECT Workers.name, 
+ROUND (Groups.salary+0.03*CAST((julianday('now','-5 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) AS 'Salary-May', 
+ROUND (Groups.salary+0.03*CAST((julianday('now','-4 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) AS 'Salary-June', 
+ROUND (Groups.salary+0.03*CAST((julianday('now','-3 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) AS 'Salary-July',
+ROUND (Groups.salary+0.03*CAST((julianday('now','-2 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) AS 'Salary-August',
+ROUND (Groups.salary+0.03*CAST((julianday('now','-1 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) AS 'Salary-September',
+ROUND (Groups.salary+0.03*CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) AS 'Salary-October'
+FROM Workers, Groups WHERE Groups.id=Workers.groupName;
+
+
+
+
+
+
+SELECT Workers.name, 
+CASE WHEN Workers.groupName=1 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-5 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=2 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-5 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=3 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-5 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) END AS 'SalaryOnPreviousMonth-4', 
+CASE WHEN Workers.groupName=1 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-4 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=2 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-4 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=3 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-4 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) END AS 'SalaryOnPreviousMonth-3', 
+CASE WHEN Workers.groupName=1 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-3 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=2 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-3 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=3 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-3 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) END AS 'SalaryOnPreviousMonth-2', 
+CASE WHEN Workers.groupName=1 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-2 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=2 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-2 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=3 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-2 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) END AS 'SalaryOnPreviousMonth-1', 
+CASE WHEN Workers.groupName=1 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-1 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=2 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-1 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=3 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now','-1 month') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) END AS 'SalaryOnPreviousMonth', 
+CASE WHEN Workers.groupName=1 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=2 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+    WHEN Workers.groupName=3 THEN
+        ROUND (Groups.salary+0.03*CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) END AS 'SalaryOnCurrentMonth' 
+
+FROM Workers, Groups WHERE Groups.id=Workers.groupName;
+
+
+
+
+
+
+SELECT Workers.name, 
+CASE WHEN Workers.groupName=1 THEN
+        CASE WHEN (CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER) < 10) THEN
+                ROUND (Groups.salary+0.03*CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+            ELSE
+                ROUND ((Groups.salary+0.03*10),2)
+            END
+    WHEN Workers.groupName=2 THEN
+        CASE WHEN (CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER) < 8) THEN
+                ROUND (Groups.salary+0.05*CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+            ELSE
+                ROUND ((Groups.salary+0.05*8),2)
+            END
+    WHEN Workers.groupName=3 THEN
+        CASE WHEN (CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER) < 35) THEN
+                ROUND (Groups.salary+0.01*CAST((julianday('now') - julianday(DATE(Workers.emplDate)))/365.25 AS INTEGER),2) 
+            ELSE
+                ROUND ((Groups.salary+0.01*35),2)
+            END
+END AS 'SalaryOnCurrentMonth'
+
+FROM Workers, Groups WHERE Groups.id=Workers.groupName;
+
+
+
+
+
+
+WITH A AS
+(
+    WITH aBase AS
+    (
+        SELECT Workers.id, Groups.salary, Subordination.chiefId
+        FROM Workers, Groups, Subordination
+        WHERE Workers.groupName=Groups.id AND Workers.id=Subordination.workerId
+    )
+    SELECT aBase.id, aBase.salary, aBase.id as rootId
+    FROM aBase
+    UNION ALL
+    SELECT aBase.id, aBase.salary, A.rootId
+    FROM aBase
+    INNER JOIN A ON aBase.chiefID = A.id
+), sumBase AS
+(
+    SELECT Workers.id, Workers.name, Groups.salary, Subordination.chiefId
+    FROM Workers, Groups, Subordination
+    WHERE Workers.groupName=Groups.id AND Workers.id=Subordination.workerId
+)
+SELECT sumBase.id, sumBase.chiefId, sumBase.name, sumBase.salary, B.salarySum
+FROM sumBase
+INNER JOIN
+(
+    SELECT A.rootId, sum(salary) AS salarySum
+    FROM A
+    GROUP BY A.rootId
+) AS B ON sumBase.id = B.rootId;
+
+
+
+
+
+
+WITH base AS 
+(
+    SELECT W.id AS id, G.id AS groupId, G.salary AS salary, 
+    CAST((julianday('now') - julianday(DATE(W.emplDate)))/365.25 AS INTEGER) AS years,
+    S.chiefId AS chiefId
+    FROM Workers W, Groups G, Subordination S WHERE W.groupName = G.id AND W.id = S.workerId
+), withLevels AS
+(
+    SELECT id, groupId, salary as baseSalary, years, chiefId, 0 AS level
+    FROM base WHERE chiefID IS NULL
+    UNION ALL
+    SELECT base.id, base.groupId, base.salary as baseSalary, base.years, base.chiefId, t.level + 1 AS level
+    FROM base
+    INNER JOIN withLevels t ON base.chiefId = t.id
+), levelsDescending AS
+(
+    SELECT *
+    FROM withLevels 
+    ORDER BY level DESC
+), allowanceCounting AS
+(
+    SELECT id, groupId, chiefId,
+    CASE WHEN groupId=1 THEN
+            CASE WHEN (years < 10) THEN
+                ROUND (baseSalary+0.03*years,2)
+            ELSE
+                ROUND ((baseSalary+0.03*10),2)
+        END
+        WHEN groupId=2 THEN
+            CASE WHEN (years < 8) THEN
+                ROUND (baseSalary+0.05*years,2)
+            ELSE
+                ROUND ((baseSalary+0.05*8),2)
+        END
+        WHEN groupId=3 THEN
+            CASE WHEN (years < 35) THEN
+                ROUND (baseSalary+0.01*years,2)
+            ELSE
+                ROUND ((baseSalary+0.01*35),2)
+        END
+    END AS allowance
+    FROM levelsDescending
+), salaryCounting AS
+(
+    SELECT id, groupId, chiefId,
+    CASE WHEN groupId=1 THEN
+            allowance
+        WHEN groupId=2 THEN
+            allowance
+        WHEN groupId=3 THEN
+            allowance
+    END AS salary
+    FROM allowanceCounting
+)
+SELECT *
+FROM salaryCounting;
+
+
+
+
+
+
+
+SELECT Workers.id, Groups.salary
+FROM Workers, Groups
+WHERE Workers.groupName=Groups.id;
+
+SELECT Workers.name, Subordination.chiefId FROM Workers, Subordination WHERE Workers.id=Subordination.workerId;
+
+SELECT Workers.id, Workers.name, COUNT(Subordination.workerId) FROM Workers, Subordination WHERE Workers.id=Subordination.chiefId GROUP BY name ORDER BY id;
+
+WITH EmployeesCTE (id, name, chiefId) AS 
+(SELECT Workers.id, Workers.name, Subordination.chiefId 
+FROM Workers, Subordination WHERE Subordination.chiefId IS NULL AND Subordination.workerId=Workers.id
+UNION ALL
+SELECT Workers.id, Workers.name, Subordination.chiefId
+FROM Workers, Subordination JOIN EmployeesCTE ON 
+Subordination.chiefId=EmployeesCTE.id AND Subordination.workerId=Workers.id)
+SELECT * FROM EmployeesCTE;
+
+
+
+SELECT Workers.name, Subordination.chiefId
+FROM Workers
+JOIN Subordination ON Workers.id=Subordination.workerId;
+
+SELECT Workers.name, Groups.salary
+FROM Workers
+JOIN Groups ON Workers.groupName=Groups.id;
+
+SELECT Workers.id, Workers.name, Subordination.chiefId, 1 
+FROM Workers, Subordination WHERE Subordination.workerId=Workers.id AND Subordination.chiefId IS NULL
+
+-----------------------------------------------------------------------------------------------------
+
+WITH cte AS
+(
+  SELECT w.id, w.chiefId, w.type, w.baseSalary, 
+  CAST('/' || CAST(w.id AS TEXT) || '/' AS TEXT) Node
+  FROM Workers w
+  WHERE chiefId ISNULL
+  UNION ALL
+  SELECT w.id, w.chiefId, w.type, w.baseSalary,  
+  CAST(c.Node || CAST(w.id AS TEXT) || '/' AS TEXT)
+  FROM Workers w
+  JOIN cte c ON w.chiefId = c.id
+)
+SELECT c1.id, c1.chiefId, c1.type, c1.baseSalary, 
+c1.baseSalary + SUM(IFNULL(c2.baseSalary, 0)) salaryIncludingChildren, c1.Node
+FROM cte c1
+LEFT OUTER JOIN cte c2 on c1.Node <> c2.Node AND SUBSTR(c2.Node, 1, LENGTH(c1.Node)) = c1.Node
+GROUP BY c1.id, c1.chiefId, c1.type, c1.baseSalary
+ORDER  BY c1.id;
